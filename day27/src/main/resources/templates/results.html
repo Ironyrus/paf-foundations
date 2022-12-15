@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Results Here</title>
+</head>
+<body>
+    <h1>
+        <span th:text="${someValue}"></span>
+    </h1>
+    <h2>
+        <span th:text="${someOption}"></span>
+    </h2>
+
+    <table th:each="each :${results}">
+        <tr ><td>User:</td>  <td th:text="${each.user}"></td></tr>
+        <tr ><td>Text:</td> <td th:text="${each.c_text}"></td></tr>
+        <tr ><td>Rating:</td> <td th:text="${each.rating}"></td></tr>
+        <tr ><td>Z-Score:</td> <td th:text="${each.textScore}"></td></tr>
+        <br>
+    </table>
+</body>
+</html>

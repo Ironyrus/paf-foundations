@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Game Here</title>
+</head>
+<body>
+    <h1>Your Game Here</h1>
+    <img th:src="${image}" style="height:200px">
+    <p>
+        <span th:text="${name}"></span>
+    </p>
+    <p>
+        <span th:text="${year}"></span>
+    </p>
+    <p>
+        <span th:text="${ranking}"></span>
+    </p>
+    <p>
+        <span th:text="${url}"></span>
+    </p>
+
+    <h2>games</h2>
+    <div th:each="each, iterStat : ${games}">
+        <span th:text="${iterStat}"> </span>) <p th:text="${each}"> </p>
+    </div>
+</body>
+</html>

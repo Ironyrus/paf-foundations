@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champions</title>
+</head>
+<body>
+    <h1>Your Heroes Are Here</h1>
+    <table th:each="hero : ${heroes}">
+        <tr>
+            <td>
+                <img th:src="${hero.thumbnail}" height="200px" />
+                <p th:text="${hero.id}"></p>
+                <p th:text="${hero.name}"></p>
+                <p th:text="${hero.description}"></p>
+                <p th:text="${hero.modified}"></p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

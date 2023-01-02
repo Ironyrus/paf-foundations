@@ -1,5 +1,14 @@
 package workshop.day28marvelworkshop.Controllers;
 
+/*
+--- Railway Deployment ---
+NOTE: pom.xml java version must be 11
+
+Railway login
+Railway link
+Railway up -d
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -1,0 +1,106 @@
+*** To connect comments2 to game collection, project out comments, sorted by rating
+db.game.aggregate([
+    {
+        $match: {name: 'Twilight Imperium'}
+    },
+    {
+        $lookup: {
+            from: 'comments2',
+            foreignField: 'gid',
+            localField: 'gid',
+            as: 'comment'
+        }
+    },
+    {
+        $unwind: "$comment"
+        
+    },
+    {
+        $project:{comments: "$comment.c_text", rating: "$comment.rating"}
+    },
+    {
+        $sort: {rating: -1}
+    }
+    
+]);
+***
+
+// Aggregating by type: Scripted, group by status, finding total number of each group, add all the names, average rating of groups
+// On netflix.tvshows mongoDB
+// db.tvshows.aggregate([
+//     { 
+//     $match: {type:"Scripted"}
+//     },
+//     {
+//         $group: {
+//             _id: "$status",
+//             total: {$sum: 1},
+//             shows: {$push: "$name"},
+//             average_rating: {$avg: "$rating.average"}
+//             }
+//     },
+//     {
+//         $sort: {average_rating: 1}
+//     }
+// ]);
+
+//db.tvshows.aggregate([
+//    { 
+//    $match: {type:"Scripted"}
+//    },
+//    {
+//        $group: {
+//            _id: "$status",
+//            total: {$sum: 1},
+//            //create new column "title", values from name column  
+//            title: {$push: "$name"},
+//            average_rating: {$avg: "$rating.average"}
+//            }
+//    },
+//    {
+//        $sort: {average_rating: 1}
+//    }
+//]);
+
+
+db.tvshows.aggregate([
+        {
+            $project: {_id:1, title: "$name", url: 1, type: 1, language: 1}
+        },
+        {
+            $sort: {title: 1}
+        },
+        {
+//            Out means create a new db bggnew, collection/table name summary
+            $out: {db: "bggnew", coll: "summary"}
+        }
+]);
+
+db.tvshows.aggregate([
+    {
+        $unwind: "$genres"
+    },
+    {
+        $group: {
+            //Group by genres column
+            _id: "$genres",
+            titles: {$push: "$title"},
+            titles_count: {$sum:1}
+        }
+    }
+
+])
+
+
+//db.tvshows.aggregate([
+//    {
+//        $bucket: {
+//            groupBy: "$rating.average",
+//            boundaries: [3, 5, 7, 9],
+//            default: '>9',
+//            output: {
+//                names: {$push: "$name"}
+//            }
+//        }
+//    }
+//])

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Todo List</h1>
+    <p>Username</p>
+
+    <form action="/home" method="post">
+    <!-- <form action="#" th:action="@{/home}" method="post" th:object="${task}"> -->
+    <input type="text" name="username" placeholder="enter username" />
+    
+    <br>
+    
+    <input type="hidden" name="save">
+    <input type="submit" name="save" value="Save">
+
+    <br>
+    <input type="hidden" name="todo">
+    <input type="submit" name="todo" value="Add To-Do">
+    <table>
+        <thead>
+            <tr>
+                <td>S/N</td>
+                <td>Description</td>
+                <td>Priority</td>
+                <td>Due Date</td>
+                <td>Delete?</td>
+            </tr>
+        </thead>
+
+        <tr data-th-each="each, iterStat : ${tasks}">
+            <td><span th:text="${iterStat.count}"></span></td>
+            <td><input name="description" /></td>
+            <!-- <td><input name="description" th:field=*{description} th:value="${each.description}" /></td> -->
+            <td>
+                <select name="priority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </td>
+            <td><input name="date" type="date" /></td>
+            <!-- <td><input name="date" th:field=*{due_date} type="date" /></td> -->
+            <td>
+                <input type="hidden" name="delete" value="">
+                <input type="submit" name="delete" th:value="${iterStat.index} + 1">
+            </td>
+        </tr>
+    </table>
+
+    <input type="hidden" name="tester">
+    <input type="submit" name="tester" value="regular" />
+    
+</form>
+
+    <h2>Contents</h2>
+
+    <table>
+        <tr>
+            <td>description</td>
+            <td>priority</td>
+            <td>date</td>
+        </tr>
+        <tr data-th-each="each : ${tasks}">
+            <td><span data-th-text="${each.description}"></span></td>
+            <td><span data-th-text="${each.priority}"></span></td>
+            <td><span data-th-text="${each.due_date}"></span></td>
+
+        </tr>
+    </table>
+</body>
+</html>

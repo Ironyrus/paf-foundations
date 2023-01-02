@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Home Page.</h1>
+    <h1>Todo List</h1>
+    <p>Username</p>
+
+    <form action="/home" th:object="${Task}" th:action="@{/home}" method="post">
+    <input type="text" name="username" placeholder="enter username" />
+    
+    <br>
+    
+    <input type="hidden" name="save">
+    <input type="submit" name="save" value="Save">
+
+    <br>
+    <input type="hidden" name="todo">
+    <input type="submit" name="todo" value="Add To-Do">
+    <table>
+        <thead>
+            <tr>
+                <td>Description</td>
+                <td>Priority</td>
+                <td>Due Date</td>
+                <td>Delete?</td>
+            </tr>
+        </thead>
+
+        <tr>
+            <td><input name="description" /></td>
+            <td>
+                <select name="priority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </td>
+            <td><input name="date" type="date" /></td>
+            <td>
+                <input type="hidden" name="delete">
+                <input type="submit" name="delete" value="X">
+            </td>
+        </tr>
+    </table>
+
+    <input type="hidden" name="tester">
+    <input type="submit"  value="regular" />
+
+    </form>
+</body>
+</html>

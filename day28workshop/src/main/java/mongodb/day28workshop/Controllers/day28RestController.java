@@ -3,7 +3,6 @@ package mongodb.day28workshop.Controllers;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -74,6 +73,43 @@ public class day28RestController {
             .add("reviews", j)
             .add("timestamp", currDateAndTime.toString())
             .build();
+
+        return ResponseEntity.ok().body(out.toString());
+    }
+
+    @GetMapping(path="games/{highorlow}", produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> testingNow(@PathVariable("highorlow") String highLow) {
+        List<Document> results = repo.listGamesByMaxOrMin(highLow);
+        
+        /* Document{{_id=Die Macher, 
+            Highest/Lowest Rating=2, 
+            game id=1, 
+            user=Wayne, 
+            comment=Great game!, 
+            review id=6393c7952bc6a50faa4c26de}}
+        */
+
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        JsonObjectBuilder builder = Json.createObjectBuilder();
+        for (Document item : results) {
+            JsonObject jObj = builder.add("_id", item.getInteger("game id"))
+            .add("name", item.getString("_id"))
+            .add("rating", item.getInteger("Highest/Lowest Rating"))
+            .add("user", item.getString("user"))
+            .add("comment", item.getString("comment"))
+            .add("review id", item.getObjectId("review id").toString())
+            .build();
+            arrayBuilder.add(jObj);
+        }
+
+        JsonArray jsonArray = arrayBuilder.build();
+        Date currDateAndTime = new Date();
+
+        JsonObjectBuilder jsonObject = Json.createObjectBuilder();
+        jsonObject.add("rating", highLow)
+        .add("games", jsonArray)
+        .add("timestamp", currDateAndTime.toString());
+        JsonObject out = jsonObject.build();
 
         return ResponseEntity.ok().body(out.toString());
     }

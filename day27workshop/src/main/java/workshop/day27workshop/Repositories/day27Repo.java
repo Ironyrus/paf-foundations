@@ -22,7 +22,7 @@ public class day27Repo {
     @Autowired
     MongoTemplate mongoTemplate;
 
-    public Document addReview(String name, Integer rating, String comment, Integer game_id) {
+    public Document addReview(String name, Integer rating, String comment, int game_id) {
         String gameName = "Game Name Not Found";
 
         Criteria c = Criteria.where("name").exists(true);
@@ -32,23 +32,34 @@ public class day27Repo {
         .find(new Query(), Document.class, "game");
 
         for (Document item : results) {
-            if(item.getInteger("gid") != game_id)
-                System.out.println("Game ID Not Found!");
-            else {
+
+            if(item.getInteger("gid") != game_id){
+                // System.out.println("Game ID Not Found!");
+            } else {
                 gameName = item.getString("name");
             }
-        }
 
+            if (game_id == item.getInteger("gid")){
+                System.out.println(game_id + " vs: " + item.getInteger("gid"));           
+                System.out.println("***");
+                System.out.println("Found!!!");
+                System.out.println("***");
+                break;
+            }
+        }
+        
         Document insert = new Document();
+        Document doc = new Document();
         insert.put("user", name);
         insert.put("rating", rating);
         insert.put("comment", comment);
         insert.put("ID", game_id);
         insert.put("posted", new Date());
-        insert.put("name", gameName);
-        
-        Document doc = mongoTemplate.insert(insert, "reviews");  
-        
+        insert.put("name", gameName); 
+        if(!gameName.equals("Game Name Not Found"))
+            doc = mongoTemplate.insert(insert, "reviews");  
+        else
+            doc = insert;
         return doc;
     }
 
